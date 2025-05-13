@@ -1,0 +1,387 @@
+:root {
+    --bg-color: #2c3e50; /* Dark blue-gray */
+    --surface-color: #34495e; /* Slightly lighter surface */
+    --primary-color: #3498db; /* Bright blue for accents */
+    --text-color: #ecf0f1; /* Light gray for text */
+    --border-color: #4a6fa5; /* Softer border color */
+    --danger-color: #e74c3c; /* Red for loss/delete */
+    --success-color: #2ecc71; /* Green for win */
+    --warning-color: #f39c12; /* Orange for pending */
+    --neutral-color: #95a5a6; /* Gray for push */
+    --input-bg: #2c3e50;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+header h1 {
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.summary-stats-header {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    font-size: 1.1em;
+}
+.summary-stats-header strong {
+    color: var(--primary-color);
+}
+
+
+section {
+    background-color: var(--surface-color);
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Makes calendar icon visible on dark bg */
+}
+
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    padding: 10px 18px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+#cancelEditButton, #resetFiltersButton {
+    background-color: var(--neutral-color);
+}
+.delete-btn {
+    background-color: var(--danger-color);
+    margin-left: 5px;
+}
+.edit-btn {
+    background-color: var(--warning-color);
+}
+
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+.form-full-width {
+    grid-column: 1 / -1;
+}
+.form-actions {
+    margin-top: 10px; /* Reduced margin for notes save button */
+    text-align: right;
+}
+.form-actions button {
+    margin-left: 10px;
+}
+
+/* General Notes Section */
+.general-notes-section textarea {
+    min-height: 120px;
+}
+
+.filter-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    align-items: end;
+}
+.filter-controls button {
+    margin-top: 10px; /* Align with labels if they wrap */
+}
+
+.table-wrapper {
+    overflow-x: auto; /* For responsiveness on small screens */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: rgba(0,0,0,0.1); /* Darker shade for header */
+    font-weight: bold;
+}
+
+tbody tr:hover {
+    background-color: rgba(255,255,255,0.05);
+}
+
+td .win { color: var(--success-color); font-weight: bold; }
+td .loss { color: var(--danger-color); font-weight: bold; }
+td .push { color: var(--neutral-color); }
+td .pending { color: var(--warning-color); }
+
+td button {
+    padding: 6px 10px;
+    font-size: 0.85em;
+}
+
+.view-note-link {
+    color: var(--primary-color);
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 0.9em;
+    margin-left: 4px;
+}
+.view-note-link:hover {
+    opacity: 0.8;
+}
+
+
+.analytics-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0; /* h2 has margin-bottom */
+}
+.analytics-toggle h2 {
+    border-bottom: none; /* Remove double border */
+    margin-bottom: 0;
+}
+
+.analytics-content {
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    margin-top: 20px;
+}
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+.stat-card {
+    background-color: var(--bg-color);
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+.stat-card h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 1em;
+    color: var(--text-color);
+}
+.stat-card p {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.charts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+.chart-wrapper {
+    background-color: var(--bg-color);
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    min-height: 300px; 
+    display: flex; 
+    flex-direction: column;
+    position: relative; /* Added: Can help with canvas positioning/sizing */
+}
+.chart-wrapper h3 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+canvas {
+    max-width: 100%;
+    background-color: var(--surface-color); /* Match section bg for chart area */
+    border-radius: 4px;
+    /* Chart.js will set width/height attributes; CSS width/height can sometimes conflict */
+    /* Let the wrapper control the size and Chart.js adapt */
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9em;
+    color: var(--neutral-color);
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0; /* Start hidden for transition */
+    visibility: hidden; /* Start hidden for transition */
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s; /* Visibility transition */
+}
+.modal-overlay.show { /* Class to show modal */
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0s linear 0s;
+}
+
+
+.modal-content {
+    background-color: var(--surface-color);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    color: var(--text-color);
+    transform: scale(0.95); /* Start slightly smaller for transition */
+    transition: transform 0.3s ease;
+}
+.modal-overlay.show .modal-content { /* Animate content when modal is shown */
+    transform: scale(1);
+}
+
+
+.modal-content h2 {
+    margin-top: 0;
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--neutral-color);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-close-button:hover {
+    color: var(--danger-color);
+}
+
+#fullNoteTextElement { /* Changed ID */
+    white-space: pre-wrap; 
+    word-wrap: break-word; 
+    max-height: 60vh; 
+    overflow-y: auto;
+    background-color: var(--input-bg); 
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    font-family: inherit; 
+    font-size: 0.95em;
+    color: var(--text-color);
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .form-grid, .filter-controls, .analytics-grid, .charts-container {
+        grid-template-columns: 1fr; /* Stack elements */
+    }
+    .summary-stats-header {
+        flex-direction: column;
+        gap: 5px;
+    }
+    th, td {
+        font-size: 0.9em;
+        padding: 8px;
+    }
+    td button {
+        display: block;
+        width: calc(100% - 10px);
+        margin: 5px auto;
+    }
+    .delete-btn { margin-left: auto; }
+
+    .modal-content {
+        width: 90%;
+    }
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Bet Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Enhanced Bet Tracker</h1>
+            <div class="summary-stats-header">
+                <p>Cumulative P/L: <strong id="cumulativeProfitLossHeader">$0.00</strong></p>
+                <p>Bankroll: <strong id="bankrollHeader">$0.00</strong></p>
+            </div>
+        </header>
+
+        <main>
+            <section>
+              <h2>Backup & Restore</h2>
+              <button id="exportDataButton">⬇️ Export Data</button>
+              <input type="file" id="importFileInput" style="display:none" accept=".json">
+              <button id="importDataButton">⬆️ Import Data</button>
+            </section>
+
+            <section class="form-section">
+                <h2>Add / Edit Bet</h2>
+                <form id="betForm">
+                    <input type="hidden" id="betId">
+                    <div class="form-grid">
+                        <div>
+                            <label for="date">Date:</label>
+                            <input type="date" id="date" required>
+                        </div>
+                        <div>
+                            <label for="game">Game/Match:</label>
+                            <input type="text" id="game" placeholder="e.g., Team A vs Team B" required>
+                        </div>
+                        <div>
+                            <label for="type">Type:</label>
+                            <select id="type" required>
+                                <option value="">Select Type</option>
+                                <option value="Player">Player Prop</option>
+                                <option value="Game">Game Prop</option>
+                                <option value="Moneyline">Moneyline</option>
+                                <option value="Spread">Spread</option>
+                                <option value="Total">Total</option>
+                                <option value="Parlay">Parlay</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="event">Event (O/U):</label>
+                            <select id="event">
+                                <option value="None">None</option>
+                                <option value="OVER">OVER</option>
+                                <option value="UNDER">UNDER</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="wager">Wager ($):</label>
+                            <input type="number" id="wager" step="0.01" min="0.01" placeholder="10.00" required>
+                        </div>
+                        <div>
+                            <label for="odds">Odds (Dec/Am):</label>
+                            <input type="text" id="odds" placeholder="1.91 or -110" required>
+                        </div>
+                        <div>
+                            <label for="result">Result:</label>
+                            <select id="result" required>
+                                <option value="">Select Result</option>
+                                <option value="Win">Win</option>
+                                <option value="Loss">Loss</option>
+                                <option value="Push">Push</option>
+                                <option value="Pending">Pending</option>
+                            </select>
+                        </div>
+                        <div class="form-full-width">
+                            <label for="notes">Bet Notes:</label>
+                            <textarea id="notes" rows="3" placeholder="Notes specific to this bet..."></textarea>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" id="submitButton">Add Bet</button>
+                        <button type="button" id="cancelEditButton" style="display:none;">Cancel Edit</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="general-notes-section">
+                <h2>General Strategy & Insights</h2>
+                <textarea id="generalNotesTextarea" rows="8" placeholder="Record your overall betting strategies, insights, bankroll rules, etc. here..."></textarea>
+                <div class="form-actions">
+                    <button id="saveGeneralNotesButton">Save General Notes</button>
+                </div>
+            </section>
+
+            <section class="filters-section">
+                <h2>Filter Bets</h2>
+                <div class="filter-controls">
+                    <div>
+                        <label for="filterDateStart">Date From:</label>
+                        <input type="date" id="filterDateStart">
+                    </div>
+                    <div>
+                        <label for="filterDateEnd">Date To:</label>
+                        <input type="date" id="filterDateEnd">
+                    </div>
+                    <div>
+                        <label for="filterResult">Result:</label>
+                        <select id="filterResult">
+                            <option value="">All</option>
+                            <option value="Win">Win</option>
+                            <option value="Loss">Loss</option>
+                            <option value="Push">Push</option>
+                            <option value="Pending">Pending</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="filterTypeEvent">Type/Event/Game:</label>
+                        <input type="text" id="filterTypeEvent" placeholder="Search term...">
+                    </div>
+                    <button id="applyFiltersButton">Apply</button>
+                    <button id="resetFiltersButton">Reset</button>
+                </div>
+            </section>
+
+            <section class="bets-display-section">
+                <h2>Stored Bets</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Game</th>
+                                <th>Type</th>
+                                <th>Event</th>
+                                <th>Wager</th>
+                                <th>Odds</th>
+                                <th>Result</th>
+                                <th>P/L</th>
+                                <th>Notes</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="betsTableBody">
+                            <!-- Bets will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="analytics-section">
+                <div class="analytics-toggle">
+                    <h2 >Bet Insights & Analysis</h2>
+                    <button id="toggleAnalyticsButton">Show Analytics</button>
+                </div>
+                <div id="analyticsContent" class="analytics-content" style="display:none;">
+                    <div class="analytics-grid">
+                        <div class="stat-card">
+                            <h3>Total Bets</h3>
+                            <p id="totalBets">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Total Wagered</h3>
+                            <p id="totalWagered">$0.00</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Win/Loss Ratio</h3>
+                            <p id="winLossRatio">N/A</p>
+                        </div>
+                         <div class="stat-card">
+                            <h3>Hit Rate</h3>
+                            <p id="hitRate">N/A</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Avg. Return/Bet</h3>
+                            <p id="avgReturnPerBet">$0.00</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Most Profitable Type</h3>
+                            <p id="mostSuccessfulType">N/A</p>
+                        </div>
+                         <div class="stat-card">
+                            <h3>Most Profitable Event</h3>
+                            <p id="mostSuccessfulEvent">N/A</p>
+                        </div>
+                    </div>
+                    <div class="charts-container">
+                        <div class="chart-wrapper">
+                            <h3>Cumulative P/L Over Time</h3>
+                            <canvas id="cumulativeProfitLossChart"></canvas>
+                        </div>
+                        <div class="chart-wrapper">
+                            <h3>Bet Results Distribution</h3>
+                            <canvas id="resultsPieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+    <!-- Note Modal HTML -->
+    <div id="noteModalElement" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <span id="modalCloseButton" class="modal-close-button">×</span>
+            <h2>Note Details</h2>
+            <pre id="fullNoteTextElement"></pre>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
